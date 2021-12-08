@@ -10,20 +10,20 @@
         <version>9</version>
     </parent>
 
-    <groupId>com.github.hadoop002.smartretry</groupId>
-    <artifactId>smart-retry</artifactId>
+    <groupId>com.mty.jls</groupId>
+    <artifactId>jpIdem-job</artifactId>
     <packaging>pom</packaging>
     <version>1.3.7</version>
 
-    <name>smart-retry</name>
-    <url>https://github.com/hadoop002/smart-retry</url>
+    <name>jpIdem-job</name>
+    <url>https://github.com/hadoop002/jpIdem-job</url>
     <description>Smart Retry主要是用来进行任务重试的。Smart Retry最大的特点是异步重试，支持持久化，系统重启之后可以继续重试。</description>
 
     <modules>
-        <module>retry-core</module>
-        <module>retry-spring4</module>
-        <module>retry-samples</module>
-        <module>retry-serializer</module>
+        <module>jpIdem-core</module>
+        <module>jpIdem-spring4</module>
+        <module>jpIdem-samples</module>
+        <module>jpIdem-serializer</module>
     </modules>
 
     <properties>
@@ -44,9 +44,9 @@
 
     <scm>
         <tag>master</tag>
-        <url>git@github.com:hadoop002/smart-retry.git</url>
-        <connection>scm:git:git@github.com:hadoop002/smart-retry.git</connection>
-        <developerConnection>scm:git:git@github.com:hadoop002/smart-retry.git</developerConnection>
+        <url>git@github.com:hadoop002/jpIdem-job.git</url>
+        <connection>scm:git:git@github.com:hadoop002/jpIdem-job.git</connection>
+        <developerConnection>scm:git:git@github.com:hadoop002/jpIdem-job.git</developerConnection>
     </scm>
 
     <developers>
@@ -74,13 +74,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.github.hadoop002.smartretry</groupId>
-                <artifactId>retry-core</artifactId>
+                <groupId>com.mty.jls</groupId>
+                <artifactId>jpIdem-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.hadoop002.smartretry</groupId>
-                <artifactId>retry-serializer-jackson2</artifactId>
+                <groupId>com.mty.jls</groupId>
+                <artifactId>jpIdem-serializer-jackson2</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

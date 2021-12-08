@@ -8,8 +8,8 @@ Smart Retry主要是用来进行方法重试的。和Guava Retry、Spring Retry�
 ![架构图](https://s1.ax1x.com/2020/03/15/88RvNj.png)
 
 ## 实现原理
-- 系统启动后，把所有com.github.smartretry.core.RetryHandler和带有@RetryFunction注解的方法注册为定时任务。
-- 所有com.github.smartretry.core.RetryHandler和带有@RetryFunction注解的方法都会被Spring进行代理，执行的时候，会先把参数序列化，然后把执行任务插入到数据库。最后根据任务执行的成功与否，更新任务的相应状态。
+- 系统启动后，把所有com.github.jpidem.core.RetryHandler和带有@RetryFunction注解的方法注册为定时任务。
+- 所有com.github.jpidem.core.RetryHandler和带有@RetryFunction注解的方法都会被Spring进行代理，执行的时候，会先把参数序列化，然后把执行任务插入到数据库。最后根据任务执行的成功与否，更新任务的相应状态。
 - 定时任务定时从表里面获取未成功的任务，进行重试
 
 ## 项目特点
@@ -51,25 +51,25 @@ Smart Retry主要是用来进行方法重试的。和Guava Retry、Spring Retry�
 * Elastic-Job 2.1.5
 
 ## 模块说明
-* [retry-cpre](https://github.com/hadoop002/smart-retry/tree/master/retry-core)：重试模块的核心，定义了一系列的接口和扩展点
-* [retry-spring4](https://github.com/hadoop002/smart-retry/tree/master/retry-spring4)：基于spring4实现的重试模块
-* [retry-serializer-jackson2](https://github.com/hadoop002/smart-retry/tree/master/retry-serializer/retry-serializer-jackson2)：使用jackson2来实现参数的序列化和反序列化
-* [retry-serializer-gson](https://github.com/hadoop002/smart-retry/tree/master/retry-serializer/retry-serializer-gson)：使用gson来实现参数的序列化和反序列化
-* [retry-serializer-fastjson](https://github.com/hadoop002/smart-retry/tree/master/retry-serializer/retry-serializer-fastjson)：使用fastjson来实现参数的序列化和反序列化
-* [retry-samples](https://github.com/hadoop002/smart-retry/tree/master/retry-samples)：配套的示例demo，可直接使用
+* [jpIdem-cpre](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-core)：重试模块的核心，定义了一系列的接口和扩展点
+* [jpIdem-spring4](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-spring4)：基于spring4实现的重试模块
+* [jpIdem-serializer-jackson2](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-serializer/jpIdem-serializer-jackson2)：使用jackson2来实现参数的序列化和反序列化
+* [jpIdem-serializer-gson](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-serializer/jpIdem-serializer-gson)：使用gson来实现参数的序列化和反序列化
+* [jpIdem-serializer-fastjson](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-serializer/jpIdem-serializer-fastjson)：使用fastjson来实现参数的序列化和反序列化
+* [jpIdem-samples](https://github.com/hadoop002/jpIdem-job/tree/master/jpIdem-samples)：配套的示例demo，可直接使用
 
 ## 如何使用
 * 本工具只适合在Spring项目中使用，Spring依赖至少包含（spring-context-support、spring-aop、spring-jdbc）
-* 在项目中引入maven依赖。最新版本已经deploy到maven的中央仓库了[查看最新版](https://search.maven.org/search?q=g:com.github.hadoop002.smartretry)
+* 在项目中引入maven依赖。最新版本已经deploy到maven的中央仓库了[查看最新版](https://search.maven.org/search?q=g:com.mty.jls)
 
         <dependency>
-            <groupId>com.github.hadoop002.smartretry</groupId>
-            <artifactId>retry-spring4</artifactId>
+            <groupId>com.mty.jls</groupId>
+            <artifactId>jpIdem-spring4</artifactId>
             <version>使用最新版本</version>
         </dependency>
 
 * 创建数据库（或者直接使用已有的数据库），支持Microsoft SQL Server、PostgreSQL、MySQL数据库，其他数据库请自行扩展
-* 初始化系统表，根据具体的数据库，执行retry-spring4/resources/sql/sqlserver.sql、retry-spring4/resources/sql/postgresql.sql、retry-spring4/resources/sql/mysql.sql对应的建表SQL
+* 初始化系统表，根据具体的数据库，执行jpIdem-spring4/resources/sql/sqlserver.sql、jpIdem-spring4/resources/sql/postgresql.sql、jpIdem-spring4/resources/sql/mysql.sql对应的建表SQL
 * 配置数据源
 * 编写业务逻辑
 

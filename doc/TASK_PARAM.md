@@ -12,8 +12,8 @@
 
 建议这个handle方法的参数是一个java bean（javabean里面的属性类型可以是Collection、Map等集合类型）
 
-handle方法的参数序列化和反序列化默认使用的是jackson2，如果需要使用fastjson或者gson可以在pom.xml依赖中排除retry-serializer-jackson2依赖，再加上retry-serializer-fastjson或者retry-serializer-gson的依赖。
-如果这3种序列化方式不满足自己的需要，可以自己扩展com.github.smartretry.core.RetrySerializer接口，然后托管到Spring容器
+handle方法的参数序列化和反序列化默认使用的是jackson2，如果需要使用fastjson或者gson可以在pom.xml依赖中排除jpIdem-serializer-jackson2依赖，再加上jpIdem-serializer-fastjson或者jpIdem-serializer-gson的依赖。
+如果这3种序列化方式不满足自己的需要，可以自己扩展com.github.jpidem.core.RetrySerializer接口，然后托管到Spring容器
 
 
 handle方法的参数需要特别注意能否序列化和反序列化（能否正常的序列化和反序列化是任务能否重试的关键），比如说下面这个对象

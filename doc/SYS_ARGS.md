@@ -9,7 +9,7 @@
 
 ### 其他说明
 Smart Retry是一个持久化的任务重试框架，持久化内部使用的是spring-jdbc，所以目前只支持关系型数据库sqlserver、mysql、PostgreSQL。
-如果要使用其他的关系型数据库，则需要自己写一个SQL映射文件（如 resources/config/h2.properties），参考 retry-spring4/src/resources/META-INF/sqlprops/mysql.properties，根据数据库和表结构的实际情况修改如下4个配置：
+如果要使用其他的关系型数据库，则需要自己写一个SQL映射文件（如 resources/config/h2.properties），参考 jpIdem-spring4/src/resources/META-INF/sqlprops/mysql.properties，根据数据库和表结构的实际情况修改如下4个配置：
     
     INSERT_SQL=
     UPDATE_SQL=
@@ -18,4 +18,4 @@ Smart Retry是一个持久化的任务重试框架，持久化内部使用的是
     
 最后在配置文件中配置retry.sqlMapping.filepath=config/h2.properties
 
-如果要使用其他非关系型数据库，如MongoDB，则可以直接实现一个com.github.smartretry.core.RetryTaskMapper接口，并托管到Spring容器中
+如果要使用其他非关系型数据库，如MongoDB，则可以直接实现一个com.github.jpidem.core.RetryTaskMapper接口，并托管到Spring容器中
