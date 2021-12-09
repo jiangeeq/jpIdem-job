@@ -1,5 +1,6 @@
 package com.github.jpidem.spring4.registry.quartz.web;
 
+import com.github.jpidem.core.RetryTaskMapper;
 import com.github.jpidem.spring4.registry.quartz.JobStatusEnum;
 import com.github.jpidem.spring4.registry.quartz.RetrySchedulerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class AdminController {
 
     @Autowired
     private ApplicationContext applicationContext;
+    @Autowired
+    private RetryTaskMapper retryTaskMapper;
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -43,6 +46,7 @@ public class AdminController {
         jobDetail.setIdentity(bean.getJobIdentity());
         jobDetail.setName(bean.getJobName() == null ? "" : bean.getJobName());
         jobDetail.setPeriod(bean.getJobPeriod());
+        jobDetail.setCount(retryTaskMapper.queryRetryTotal(bean.getJobIdentity()));
         jobDetail.setStatus(bean.getJobStatusEnum().getDesc());
         if (bean.getJobStatusEnum() == JobStatusEnum.RUNNING) {
             LocalDateTime nextTime = bean.getNextTime();

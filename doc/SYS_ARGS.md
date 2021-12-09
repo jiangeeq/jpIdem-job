@@ -8,7 +8,7 @@
 | retry.sqlMapping.filepath | string |  |  | 配置自定义SQL文件 |当前系统只支持sqlserver、mysql、PostgreSQL，如果不是使用这些数据库，则需要自己扩展|
 
 ### 其他说明
-Smart Retry是一个持久化的任务重试框架，持久化内部使用的是spring-jdbc，所以目前只支持关系型数据库sqlserver、mysql、PostgreSQL。
+JpIdem Job是一个持久化的任务重试框架，持久化内部使用的是spring-jdbc，所以目前只支持关系型数据库sqlserver、mysql、PostgreSQL。
 如果要使用其他的关系型数据库，则需要自己写一个SQL映射文件（如 resources/config/h2.properties），参考 jpIdem-spring4/src/resources/META-INF/sqlprops/mysql.properties，根据数据库和表结构的实际情况修改如下4个配置：
     
     INSERT_SQL=

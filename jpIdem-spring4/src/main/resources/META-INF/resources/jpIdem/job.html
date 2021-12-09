@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JpIdem Job任务管理平台</title>
+    <title>JpIdem Job 冥等数据任务管理平台</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
 	    .table {table-layout:fixed;}
@@ -27,9 +27,10 @@
         <table class="table table-bordered" id="jobtable">
             <tr>
                 <td style="width: 20%;text-align:center">identity</td>
-                <td style="width: 32%;text-align:center;">名称</td>
+                <td style="width: 22%;text-align:center;">名称</td>
                 <td style="width: 10%;text-align:center;">执行周期</td>
-                <td style="width: 15%;text-align:center;">下次重试时间</td>
+                <td style="width: 8%;text-align:center;">下次重试时间</td>
+                <td style="width: 17%;text-align:center;">待数据冥等任务数</td>
                 <td style="width: 8%;text-align:center;">状态</td>
                 <td style="width: 15%;text-align:center;">操作</td>
             </tr>
@@ -86,6 +87,7 @@
                     html += "<td>"+row['name']+"</td>";
                     html += "<td>"+row['period']+"</td>";
                     html += "<td align='center'>"+row['nextTime']+"</td>";
+                    html += "<td align='center' valign='middle'>"+row['count']+"</td>";
                     html += "<td align='center' valign='middle'>"+row['status']+"</td>";
                     html += "<td align='center'>";
                     if(row['status'] == '运行中') {

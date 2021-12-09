@@ -31,6 +31,8 @@ public class JdbcRetryTaskMapper extends JdbcTemplate implements RetryTaskMapper
 
     public static final String QUERY_NEEDRETRYTASK_LIST_SQL_KEY = "QUERY_NEEDRETRYTASK_LIST_SQL";
 
+    public static final String QUERY_RETRY_TOTAL_COUNT_SQL_KEY = "QUERY_RETRY_TOTAL_COUNT_SQL";
+
     public static final String PRIMARY_KEY_KEY = "PRIMARY_KEY";
 
     private String primaryKeyKey;
@@ -108,6 +110,17 @@ public class JdbcRetryTaskMapper extends JdbcTemplate implements RetryTaskMapper
             ps.setString(3, retryTask.getRemark());
             ps.setLong(4, retryTask.getTaskId());
         });
+    }
+
+    @Override
+    public int queryRetryTotal(String identity) {
+        String sql = sqlMappingProperties.getProperty(QUERY_RETRY_TOTAL_COUNT_SQL_KEY);
+        List<Integer> result = this.query(sql, ps -> {
+            ps.setString(1, identity);
+        }, (rs, rowNum) -> {
+            return rs.getInt(1);
+        });
+        return result.size();
     }
 
     @Override

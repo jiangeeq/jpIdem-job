@@ -12,4 +12,6 @@ public interface RetryTaskMapper {
     int update(RetryTask retryTask);
 
     List<RetryTask> queryNeedRetryTaskList(String identity, int retryCount, int initialDelay);
+
+    int queryRetryTotal(String identity);
 }

@@ -18,6 +18,7 @@ public class JobDetail {
 
     private String status;
 
+    private Integer count;
     /**
      * 下次执行时间
      */
