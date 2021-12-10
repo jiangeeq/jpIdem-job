@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 重试任务的上下文信息
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @Setter
 @Getter

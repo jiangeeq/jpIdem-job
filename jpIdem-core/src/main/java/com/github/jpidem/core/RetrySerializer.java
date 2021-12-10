@@ -5,9 +5,8 @@ import com.github.jpidem.core.impl.DefaultRetryTaskFactory;
 /**
  * 用于序列化、反序列化handle的请求参数
  *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  * @see DefaultRetryTaskFactory
- *
- * @author yuni[mn960mn@163.com]
  */
 public interface RetrySerializer {
 

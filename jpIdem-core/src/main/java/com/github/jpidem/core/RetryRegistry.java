@@ -1,7 +1,7 @@
 package com.github.jpidem.core;
 
 /**
- * RetryHandler 注册器
+ * 重试注册器，用于注册RetryHandler相关类实例
  */
 @FunctionalInterface
 public interface RetryRegistry {

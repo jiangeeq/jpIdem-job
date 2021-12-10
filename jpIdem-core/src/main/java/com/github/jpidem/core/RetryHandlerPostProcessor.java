@@ -1,9 +1,9 @@
 package com.github.jpidem.core;
 
 /**
- * RetryHandler的后置处理器
- *
- * @author yuni[mn960mn@163.com]
+ * 重试执行器的后置处理器（用作增强）
+ * @see RetryHandler
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @FunctionalInterface
 public interface RetryHandlerPostProcessor<T, R> {
