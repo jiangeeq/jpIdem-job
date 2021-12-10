@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.mty.jls</groupId>
+        <groupId>io.github.jiangeeq</groupId>
         <artifactId>jpIdem-serializer</artifactId>
-        <version>1.3.7</version>
+        <version>1.3.8</version>
     </parent>
 
     <artifactId>jpIdem-serializer-fastjson</artifactId>
@@ -21,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.mty.jls</groupId>
+            <groupId>io.github.jiangeeq</groupId>
             <artifactId>jpIdem-core</artifactId>
         </dependency>
         <dependency>

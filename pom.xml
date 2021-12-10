@@ -10,13 +10,13 @@
         <version>9</version>
     </parent>
 
-    <groupId>com.mty.jls</groupId>
+    <groupId>io.github.jiangeeq</groupId>
     <artifactId>jpIdem-job</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.7</version>
+    <version>1.3.8</version>
 
     <name>jpIdem-job</name>
-    <url>https://github.com/hadoop002/jpIdem-job</url>
+    <url>https://github.com/jiangeeq/jpIdem-job</url>
     <description>JpIdem Job主要是用来进行任务重试的。JpIdem Job最大的特点是异步重试，支持持久化，系统重启之后可以继续重试。</description>
 
     <modules>
@@ -44,42 +44,26 @@
 
     <scm>
         <tag>master</tag>
-        <url>git@github.com:hadoop002/jpIdem-job.git</url>
-        <connection>scm:git:git@github.com:hadoop002/jpIdem-job.git</connection>
-        <developerConnection>scm:git:git@github.com:hadoop002/jpIdem-job.git</developerConnection>
+        <url>git@github.com:jiangeeq/jpIdem-job.git</url>
+        <connection>scm:git:git@github.com:jiangeeq/jpIdem-job.git</connection>
     </scm>
 
     <developers>
         <developer>
-            <name>yuni</name>
-            <email>mn960mn@163.com</email>
+            <name>蒋老湿</name>
+            <email>773899172@qq.com</email>
         </developer>
     </developers>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <name>github snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <layout>default</layout>
-        </snapshotRepository>
-        <repository>
-            <id>oss</id>
-            <name>github release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.mty.jls</groupId>
+                <groupId>io.github.jiangeeq</groupId>
                 <artifactId>jpIdem-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.mty.jls</groupId>
+                <groupId>io.github.jiangeeq</groupId>
                 <artifactId>jpIdem-serializer-jackson2</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -172,24 +156,31 @@
 
     <profiles>
         <profile>
-            <id>deploy</id>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
                         <configuration>
-                            <executable>C:\Program Files (x86)\gnupg\bin\gpg.exe</executable>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -217,8 +208,22 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
-                            <doclint>none</doclint>
+                            <executable>C:\Program Files (x86)\gnupg\bin\gpg.exe</executable>
                         </configuration>
                     </plugin>
                 </plugins>

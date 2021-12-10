@@ -63,7 +63,7 @@ JpIdem Job主要是用来进行方法重试的。和Guava Retry、Spring Retry�
 * 在项目中引入maven依赖。最新版本已经deploy到maven的中央仓库了[查看最新版](https://search.maven.org/search?q=g:com.mty.jls)
 
         <dependency>
-            <groupId>com.mty.jls</groupId>
+            <groupId>io.github.jiangeeq</groupId>
             <artifactId>jpIdem-spring4</artifactId>
             <version>使用最新版本</version>
         </dependency>
