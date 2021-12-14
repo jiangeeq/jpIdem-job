@@ -10,7 +10,7 @@ import com.github.jpidem.core.RetryHandler;
 public interface GenericRetryHandler extends RetryHandler {
 
     /**
-     * 获取handle方法请求参数的泛型类型
+     * 获取 handle 方法请求参数的泛型类型
      *
      * @return Class
      */

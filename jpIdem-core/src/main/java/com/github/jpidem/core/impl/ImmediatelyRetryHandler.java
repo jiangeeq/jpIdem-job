@@ -12,13 +12,17 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 用于在一个重试任务首次执行时触发。执行任务时，先把参数序列化并保存到数据库
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @Slf4j
 class ImmediatelyRetryHandler extends ExecuteRetryHandler {
-
+    /**
+     * RetryTask对象创建工厂
+     */
     private RetryTaskFactory retryTaskFactory;
-
+    /**
+     * 之前的任务
+     */
     private boolean beforeTask;
 
     public ImmediatelyRetryHandler(GenericRetryHandler genericRetryHandler, RetryTaskFactory retryTaskFactory, RetryTaskMapper retryTaskMapper, boolean beforeTask) {
@@ -36,6 +40,7 @@ class ImmediatelyRetryHandler extends ExecuteRetryHandler {
             retryTask = retryTaskFactory.create(genericRetryHandler, arg);
             retryTaskMapper.insert(retryTask);
             try {
+                onBefore(retryContext);
                 result = genericRetryHandler.handle(arg);
                 retryContext.setResult(result);
                 completeTask(retryTask);
@@ -67,6 +72,7 @@ class ImmediatelyRetryHandler extends ExecuteRetryHandler {
             return result;
         } else {
             try {
+                onBefore(retryContext);
                 result = genericRetryHandler.handle(arg);
                 retryContext.setResult(result);
                 onRetry(retryContext);

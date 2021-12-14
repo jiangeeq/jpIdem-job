@@ -8,14 +8,21 @@ import com.github.jpidem.core.support.DefaultRetryHandler;
 import com.github.jpidem.core.support.GenericRetryHandler;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 重试执行器的后置处理器
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class DefaultRetryHandlerPostProcessor implements RetryHandlerPostProcessor<Object, Object> {
-
+    /**
+     * RetryTask对象创建工厂
+     */
     private RetryTaskFactory retryTaskFactory;
-
+    /**
+     * 数据库的抽象操作方法
+     */
     private RetryTaskMapper retryTaskMapper;
-
+    /**
+     * 之前的任务
+     */
     private boolean beforeTask;
 
     public DefaultRetryHandlerPostProcessor(RetryTaskMapper retryTaskMapper, boolean beforeTask) {

@@ -12,7 +12,12 @@ import com.github.jpidem.core.RetryHandler;
  * @see RetryHandler
  */
 public interface RetryListener {
+    /**
+     * 重试执行前触发
+     */
+    default void onBefore(RetryContext retryContext) {
 
+    }
     /**
      * 每次重试时触发(执行后触发)
      */

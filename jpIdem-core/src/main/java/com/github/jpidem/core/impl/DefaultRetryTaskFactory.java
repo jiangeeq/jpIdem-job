@@ -9,11 +9,14 @@ import com.github.jpidem.core.util.ServiceLoaderUtils;
 import java.time.LocalDateTime;
 
 /**
- * @author yuni[mn960mn@163.com]
- * @see ImmediatelyRetryHandler
+ * 默认的RetryTask对象创建工厂
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class DefaultRetryTaskFactory implements RetryTaskFactory {
-
+    /**
+     * 序列化操作对象
+     */
     private RetrySerializer retrySerializer;
 
     public DefaultRetryTaskFactory() {

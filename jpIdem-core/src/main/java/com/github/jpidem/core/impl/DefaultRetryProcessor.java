@@ -13,15 +13,23 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 默认的重试处理器
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @Slf4j
 public class DefaultRetryProcessor implements RetryProcessor {
-
+    /**
+     * 重试执行器
+     */
     private GenericRetryHandler genericRetryHandler;
-
+    /**
+     * 数据库表的操作对象
+     */
     private RetryTaskMapper retryTaskMapper;
-
+    /**
+     * 重试执行器
+     */
     private RetryedRetryHandler retryedRetryHandler;
 
     public DefaultRetryProcessor(RetryHandler<Object, Object> retryHandler, RetryTaskMapper retryTaskMapper, RetrySerializer retrySerializer) {
@@ -62,7 +70,7 @@ public class DefaultRetryProcessor implements RetryProcessor {
             if (StringUtils.isBlank(json)) {
                 retryedRetryHandler.handle(null);
             } else {
-                retryedRetryHandler.parseArgsAndhandle(json);
+                retryedRetryHandler.parseArgsAndHandle(json);
             }
         } catch (RuntimeException e) {
             log.error(e.getMessage(), e);
@@ -76,7 +84,7 @@ public class DefaultRetryProcessor implements RetryProcessor {
         if (StringUtils.isBlank(json)) {
             retryedRetryHandler.handle(null);
         } else {
-            retryedRetryHandler.parseArgsAndhandle(json);
+            retryedRetryHandler.parseArgsAndHandle(json);
         }
     }
 }

@@ -9,14 +9,22 @@ import com.github.jpidem.core.support.GenericRetryHandler;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 重试执行器执行过程中的一些基本行为，大多数方法的通用逻辑实现都在这里
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 abstract class ExecuteRetryHandler implements GenericRetryHandler {
-
+    /**
+     * 重试执行器
+     */
     protected GenericRetryHandler genericRetryHandler;
-
+    /**
+     * 数据库的抽象操作方法
+     */
     protected RetryTaskMapper retryTaskMapper;
-
+    /**
+     * 重试监听器
+     */
     private RetryListener delegateRetryListener;
 
     private Class<?> inputArgsType;
@@ -58,8 +66,10 @@ abstract class ExecuteRetryHandler implements GenericRetryHandler {
 
     protected synchronized RetryListener getRetryListener() {
         if (delegateRetryListener == null) {
+            // 自己的delegateRetryListener未设置则使用重试执行器中的listener
             RetryListener retryListener = genericRetryHandler.retryListener();
             if (retryListener == null) {
+                // 如果都没有就new一个什么都不做的listener
                 delegateRetryListener = new RetryListener() {
                 };
             } else {
@@ -67,6 +77,10 @@ abstract class ExecuteRetryHandler implements GenericRetryHandler {
             }
         }
         return delegateRetryListener;
+    }
+
+    protected void onBefore(RetryContext retryContext) {
+        getRetryListener().onBefore(retryContext);
     }
 
     protected void onRetry(RetryContext retryContext) {

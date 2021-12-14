@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 一个RetryListener的包装器，防止用户自定义的RetryListener执行报错阻塞流程
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @Slf4j
 public class QuietRetryListener implements RetryListener {
