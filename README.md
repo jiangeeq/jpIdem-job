@@ -143,7 +143,7 @@ Job在这种背景下应运而生，支持持久化的任务重试，保证数�
 ## Job管理页面
 
 系统内置了一个简易的Job管理页面（页面地址: /jpIdem/job.html），通过这个管理页面可以查看当前系统所有已注册的重试任务，对重试任务进行执行、停止、启动等操作
-![Job管理页面](https://github.com/jiangeeq/jpIdem-job/tree/master/doc/img/dashboard.jpg?raw=true)
+![Job管理页面](https://raw.githubusercontent.com/jiangeeq/jpIdem-job/master/doc/img/dashboard.jpg)
 
 ## 其他文档
 
