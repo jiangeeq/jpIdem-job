@@ -7,8 +7,14 @@ import com.github.jpidem.spring4.JdbcRetryTaskMapper;
 import com.github.jpidem.spring4.RetryAnnotationBeanPostProcessor;
 import com.github.jpidem.spring4.registry.quartz.QuartzRetryRegistry;
 import com.github.jpidem.spring4.support.RetryConditional;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
+import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 
@@ -17,6 +23,7 @@ import javax.sql.DataSource;
  *
  * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
+@Slf4j
 public class RetryAutoConfiguration {
     /**
      * @param beanFactory spring的beanFactory
@@ -56,5 +63,28 @@ public class RetryAutoConfiguration {
     @Bean
     public RetryAnnotationBeanPostProcessor retryAnnotationBeanPostProcessor() {
         return new RetryAnnotationBeanPostProcessor();
+    }
+
+    @Bean
+    public RedissionConfiguration redissionConfiguration() {
+        return new RedissionConfiguration();
+    }
+
+    @Bean(name = "redissonClient")
+    @RetryConditional(hasBeanType = RedissionConfiguration.class)
+    public RedissonClient redissonClient(RedissionConfiguration redissionConfiguration) {
+        String host = redissionConfiguration.getHost();
+        String port = redissionConfiguration.getPort();
+        String password = redissionConfiguration.getPassword();
+        Config config = new Config();
+        String url = "redis://" + host + ":" + port;
+        log.debug(url);
+        SingleServerConfig singleServerConfig = config.useSingleServer().setAddress(url);
+        if (!StringUtils.isEmpty(password)) {
+            singleServerConfig.setPassword(password);
+        }
+        RedissonClient redissonClient = Redisson.create(config);
+        log.debug("初始化RedissonClient");
+        return redissonClient;
     }
 }
