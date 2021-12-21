@@ -7,7 +7,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * spring aop 拦截目标类的方法
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryHandlerClassInterceptor implements MethodInterceptor {
 

@@ -22,9 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 根据配置来决定是否进行自动配置
+ * 自己编写一个注解，让Spring在启动时扫描指定目录下带有指定注解的的类创建并加载到Spring容器中
+ * 使用{@link ImportBeanDefinitionRegistrar}动态创建自定义Bean到Spring中
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryImportSelector implements EnvironmentAware, ImportBeanDefinitionRegistrar {
 
@@ -39,16 +40,18 @@ public class RetryImportSelector implements EnvironmentAware, ImportBeanDefiniti
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         if (retryEnabled()) {
             registerProxyCreator(importingClassMetadata, registry);
-
+            // RootBeanDefinition可用于没有继承关系的Bean的创建
             registry.registerBeanDefinition(RetryAutoConfiguration.class.getName(), new RootBeanDefinition(RetryAutoConfiguration.class));
 
             if (retryWebEnabled()) {
+                // RootBeanDefinition可用于没有继承关系的Bean的创建
                 registry.registerBeanDefinition(RetryWebAutoConfiguration.class.getName(), new RootBeanDefinition(RetryWebAutoConfiguration.class));
             }
         }
     }
 
     protected void registerProxyCreator(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        // 检索启动时指定类型EnableRetrying的注释的属性
         Map<String, Object> annotationData = importingClassMetadata.getAnnotationAttributes(EnableRetrying.class.getName());
         boolean proxyTargetClass = (Boolean) annotationData.get("proxyTargetClass");
         boolean exposeProxy = (Boolean) annotationData.get("exposeProxy");
@@ -61,13 +64,15 @@ public class RetryImportSelector implements EnvironmentAware, ImportBeanDefiniti
         retryAdvisors.add(new DefaultPointcutAdvisor(new RetryHandlerMethodPointcut(), new RetryHandlerMethodInterceptor()));
         retryAdvisors.add(new DefaultPointcutAdvisor(new RetryHandlerClassPointcut(), new RetryHandlerClassInterceptor()));
 
+        //创建一个新的用于构造RootBeanDefinition的BeanDefinitionBuilder, 在多继承体系中，RootBeanDefinition代表的是当前初始化类的父类的BeanDefinition; 在多继承体系中，RootBeanDefinition代表的是当前初始化类的父类的BeanDefinition
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(RetryAdvisorAutoProxyCreator.class);
+        // 在给定的属性名下添加提供的属性值
         beanDefinitionBuilder.addPropertyValue("proxyTargetClass", proxyTargetClass);
         beanDefinitionBuilder.addPropertyValue("exposeProxy", exposeProxy);
         beanDefinitionBuilder.addPropertyValue("order", order);
         beanDefinitionBuilder.addPropertyValue("retryAdvisors", retryAdvisors);
 
-        registry.registerBeanDefinition("smartRetryAdvisorAutoProxyCreator", beanDefinitionBuilder.getBeanDefinition());
+        registry.registerBeanDefinition("retryAdvisorAutoProxyCreator", beanDefinitionBuilder.getBeanDefinition());
     }
 
     protected boolean retryEnabled() {

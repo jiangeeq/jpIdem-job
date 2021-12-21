@@ -8,9 +8,9 @@ import org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreat
 import java.util.List;
 
 /**
- * 专用的AOP代理生成器
+ * JpIdem专用的AOP代理生成器
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryAdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator {
 
@@ -18,11 +18,13 @@ public class RetryAdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreato
     @Getter
     private List<Advisor> retryAdvisors;
 
+
     /**
-     * 覆盖父类的获取Advisor的逻辑，父类是从Spring容器中获取所有的Advisor，这里使用实例本身的Advisor。
-     * 这样就不用把smartretry专用的Advisor托管到Spring容器，避免被其他不相关的AbstractAdvisorAutoProxyCreator（比如说：AspectJAwareAdvisorAutoProxyCreator）找到并生成AOP代理
+     * 覆盖父类的get Advisor逻辑，父类是从Spring容器中获取所有的Advisor，这里使用实例本身的Advisor。
+     * 这样就不用把jpIdem job专用的Advisor托管到Spring容器，避免被其他不相关的AbstractAdvisorAutoProxyCreator（比如说：AspectJAwareAdvisorAutoProxyCreator）找到并生成AOP代理
      *
-     * @return
+     * @return 实例本身的Advisor
+     * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
      */
     @Override
     protected List<Advisor> findCandidateAdvisors() {

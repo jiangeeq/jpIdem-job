@@ -31,7 +31,9 @@ import java.util.function.Supplier;
 /**
  * 对所有com.github.jpidem.core.RetryHandler和带有@RetryFunction注解的方法进行注册
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+ * @see SmartInitializingSingleton bean实例化完成(包括依赖注入完成,BeadPostProcess,InitializingBean,initMethod等等全部完成)后执行;可以理解为bean的收尾操作;
+ * @see BeanPostProcessor bean初始化方法前后要添加一些自己逻辑处理
  */
 @Slf4j
 public class RetryAnnotationBeanPostProcessor implements BeanPostProcessor, SmartInitializingSingleton, EnvironmentAware, BeanFactoryAware {
@@ -73,7 +75,7 @@ public class RetryAnnotationBeanPostProcessor implements BeanPostProcessor, Smar
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof AopInfrastructureBean) {
-            // Ignore AOP infrastructure such as scoped proxies.
+            // 忽略AOP基础类 或例如限定范围的代理
             return bean;
         }
 

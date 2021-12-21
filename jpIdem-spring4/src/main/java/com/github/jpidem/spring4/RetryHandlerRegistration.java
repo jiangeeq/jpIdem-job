@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryHandlerRegistration {
 

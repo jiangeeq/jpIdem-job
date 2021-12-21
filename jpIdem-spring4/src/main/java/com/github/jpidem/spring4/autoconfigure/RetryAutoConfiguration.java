@@ -13,9 +13,16 @@ import org.springframework.context.annotation.Bean;
 import javax.sql.DataSource;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * jpIdem job相关自动配置
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryAutoConfiguration {
+    /**
+     * @param beanFactory spring的beanFactory
+     * @return {@link com.github.jpidem.core.RetryTaskMapper} 对数据库表的sql操作类
+     * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+     */
 
     @Bean
     @RetryConditional(missingBeanType = RetryTaskMapper.class)
@@ -30,12 +37,22 @@ public class RetryAutoConfiguration {
         return new JdbcRetryTaskMapper(dataSource);
     }
 
+    /**
+     * 用于注册RetryHandler相关类实例
+     *
+     * @return 任务注册器
+     * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+     */
     @Bean
     @RetryConditional(missingBeanType = RetryRegistry.class)
     public QuartzRetryRegistry defaultRetryRegistry() {
         return new QuartzRetryRegistry();
     }
 
+    /**
+     * @return
+     * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+     */
     @Bean
     public RetryAnnotationBeanPostProcessor retryAnnotationBeanPostProcessor() {
         return new RetryAnnotationBeanPostProcessor();

@@ -6,7 +6,8 @@ import com.github.jpidem.spring4.support.RetryConditional;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * jpIdem job web 相关自动配置
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryWebAutoConfiguration {
 

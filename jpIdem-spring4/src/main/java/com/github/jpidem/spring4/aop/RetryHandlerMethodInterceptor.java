@@ -12,7 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Optional;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * spring aop 拦截目标注解的方法
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryHandlerMethodInterceptor implements MethodInterceptor {
 
@@ -24,6 +26,7 @@ public class RetryHandlerMethodInterceptor implements MethodInterceptor {
         if (StringUtils.isBlank(identity)) {
             identity = RetryHandlerUtils.getMethodIdentity(invocation.getMethod());
         }
+        // 从登记表中获取对应的RetryHandler实例
         Optional<RetryHandler> optional = RetryHandlerRegistration.get(identity);
         if (optional.isPresent()) {
             return optional.get().handle(ArrayUtils.isEmpty(args) ? null : args[0]);

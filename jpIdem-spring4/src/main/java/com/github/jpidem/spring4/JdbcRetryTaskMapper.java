@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 对数据库表的sql操作方法实现
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class JdbcRetryTaskMapper extends JdbcTemplate implements RetryTaskMapper, EnvironmentAware {
 
