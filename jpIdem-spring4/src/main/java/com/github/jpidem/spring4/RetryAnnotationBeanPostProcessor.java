@@ -45,14 +45,18 @@ public class RetryAnnotationBeanPostProcessor implements BeanPostProcessor, Smar
     /**
      * 同一个类，如果在Spring容器中有多个bean，则会PostProcessor多次，这个Set就是为了防止多次注册的
      */
-    private Set<Class<?>> postedClasseCache = new HashSet<>();
+    private Set<Class<?>> postedClassCache = new HashSet<>();
 
     private List<RetryHandler> retryHandlers = new ArrayList<>();
-
+    /**
+     * 重试注册器
+     */
     private RetryRegistry retryRegistry;
 
     private RetrySerializer retrySerializer;
-
+    /**
+     * 对数据库表的sql操作
+     */
     private RetryTaskMapper retryTaskMapper;
 
     private RetryHandlerPostProcessor<Object, Object> retryHandlerPostProcessor;
@@ -78,27 +82,33 @@ public class RetryAnnotationBeanPostProcessor implements BeanPostProcessor, Smar
             // 忽略AOP基础类 或例如限定范围的代理
             return bean;
         }
-
+        // 确定给定bean实例的最终目标类，不仅要遍历顶级代理，还要遍历任意数量的嵌套代理——在没有副作用的情况下尽可能长，也就是说，只针对单例目标。
         Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
-        if (!this.postedClasseCache.contains(targetClass)) {
+        // 从未被注册到容器
+        if (!this.postedClassCache.contains(targetClass)) {
+            //获取给定代理后面的单例目标对象(如果有的话)。
             Object targetObject = AopProxyUtils.getSingletonTarget(bean);
             if (RetryHandler.class.isAssignableFrom(targetClass)) {
                 RetryHandlerUtils.validateRetryHandler(targetClass);
                 log.info("发现RetryHandler的实例：{}，准备注册", targetClass);
                 retryHandlers.add((RetryHandler) targetObject);
                 return bean;
-            }
-            ReflectionUtils.MethodFilter methodFilter = method -> method.getAnnotation(RetryFunction.class) != null;
-            Set<Method> methods = MethodIntrospector.selectMethods(targetClass, methodFilter);
-            methods.forEach(method -> processRetryFunction(targetObject, method));
+            } else {
+                // 判断是不是方法上有@RetryFunction注解；MethodFilter用于处理在反射中过滤方法（函数式接口）
+                ReflectionUtils.MethodFilter methodFilter = method -> method.getAnnotation(RetryFunction.class) != null;
+                // 根据筛选器在给定的目标类型上选择方法
+                Set<Method> methods = MethodIntrospector.selectMethods(targetClass, methodFilter);
+                methods.forEach(method -> processRetryFunction(targetObject, method));
 
-            postedClasseCache.add(targetClass);
+                postedClassCache.add(targetClass);
+            }
         }
         return bean;
     }
 
     protected void processRetryFunction(Object bean, Method method) {
         log.info("发现@RetryFunction的实例：{}，准备注册", method.toString());
+        // 在目标类型上选择一个可调用的方法:如果给定的方法本身实际暴露在目标类型上，则选择在目标类型的一个接口上或目标类型本身上的相应方法。
         Method invocableMethod = AopUtils.selectInvocableMethod(method, bean.getClass());
         RetryHandlerUtils.validateRetryFunction(method);
 
@@ -124,15 +134,22 @@ public class RetryAnnotationBeanPostProcessor implements BeanPostProcessor, Smar
         }
     }
 
+    /**
+     * 在单例预实例化阶段的末尾调用，并保证已经创建了所有常规单例bean。
+     * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+     * @param
+     * @return void
+     */
     @Override
     public void afterSingletonsInstantiated() {
-        postedClasseCache.clear();
+        postedClassCache.clear();
 
         this.retryTaskMapper = defaultListableBeanFactory.getBean(RetryTaskMapper.class);
         this.retryRegistry = defaultListableBeanFactory.getBean(RetryRegistry.class);
 
         boolean beforeTask = environment.getProperty(EnvironmentConstants.RETRY_BEFORETASK, Boolean.class, Boolean.TRUE);
         this.retrySerializer = getRetrySerializerFromBeanFactory(defaultListableBeanFactory);
+
         if (this.retrySerializer == null) {
             this.retryHandlerPostProcessor = new DefaultRetryHandlerPostProcessor(retryTaskMapper, beforeTask);
         } else {

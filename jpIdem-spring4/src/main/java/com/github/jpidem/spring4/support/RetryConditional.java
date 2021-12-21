@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * 考虑到实际使用的可能不是springboot环境，所以才有此类。类似springboot中的@ConditionalOnMissingBean、@ConditionalOnBean
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  * @see RetryConfigurationCondition
  */
 @Target({ElementType.METHOD})

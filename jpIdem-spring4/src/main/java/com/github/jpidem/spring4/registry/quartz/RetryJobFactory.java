@@ -6,7 +6,10 @@ import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * JobFactory负责生成Job类的实例。
+ * 对于那些希望自己的应用程序通过某些特殊机制生成Job实例(比如提供依赖注入的机会)的人来说，这个接口可能有用。
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryJobFactory implements JobFactory {
 

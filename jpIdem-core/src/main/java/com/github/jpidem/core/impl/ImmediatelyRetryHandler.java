@@ -35,9 +35,9 @@ class ImmediatelyRetryHandler extends ExecuteRetryHandler {
     public Object handle(Object arg) {
         RetryContext retryContext = new RetryContext(genericRetryHandler, arg);
         Object result;
-        RetryTask retryTask;
+        RetryTask retryTask = retryTaskFactory.create(genericRetryHandler, arg);
+
         if (beforeTask) {
-            retryTask = retryTaskFactory.create(genericRetryHandler, arg);
             retryTaskMapper.insert(retryTask);
             try {
                 onBefore(retryContext);
@@ -86,15 +86,15 @@ class ImmediatelyRetryHandler extends ExecuteRetryHandler {
                 throw e;
             } catch (RuntimeException e) {
                 retryContext.setException(e);
+                retryTask.setRemark(StringUtils.left(e.getMessage(), 1000));
+                retryTaskMapper.insert(retryTask);
+
                 if (retryContext.getRetryCount() == genericRetryHandler.maxRetryCount()) {
-                    //只有最大可重试次数为0，才会执行到这里
+                    //达到最大重试次数
                     onRetry(retryContext);
                     onError(retryContext);
                 } else {
-                    //等待重试
-                    retryTask = retryTaskFactory.create(genericRetryHandler, arg);
-                    retryTask.setRemark(StringUtils.left(e.getMessage(), 1000));
-                    retryTaskMapper.insert(retryTask);
+                    //继续重试
                     onRetry(retryContext);
                 }
 

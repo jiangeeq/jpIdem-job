@@ -15,5 +15,5 @@ public class BeanConstants {
     /**
      * 自定义retry quartz job线程池的bean名称
      */
-    public static final String DEFAULT_RETRY_TASKEXECUTOR = "defaultRetryTaskExecutor";
+    public static final String DEFAULT_RETRY_TASK_EXECUTOR = "defaultRetryTaskExecutor";
 }

@@ -3,7 +3,7 @@ package com.github.jpidem.spring4.registry.quartz;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 /**
- * 可以对RetrySchedulerFactoryBean对象做后置处理
+ * 可以对{@link  RetrySchedulerFactoryBean}对象做后置处理
  *
  * @author yuni[mn960mn@163.com]
  * @see QuartzRetryRegistry

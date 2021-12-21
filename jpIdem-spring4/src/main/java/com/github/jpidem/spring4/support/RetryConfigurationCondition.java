@@ -11,12 +11,15 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import java.util.Map;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * 判断带有@Configuration注解的配置Class是否满足condition条件
+ *
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public class RetryConfigurationCondition implements ConfigurationCondition {
 
     @Override
     public ConfigurationPhase getConfigurationPhase() {
+        // 该条件不会阻止 @Configuration添加类，在评估条件时，所有@Configurations都将被解析。
         return ConfigurationPhase.REGISTER_BEAN;
     }
 
@@ -25,6 +28,7 @@ public class RetryConfigurationCondition implements ConfigurationCondition {
         Map<String, Object> map = metadata.getAnnotationAttributes(RetryConditional.class.getName());
         Class<?> missingBeanType = (Class<?>) map.get("missingBeanType");
         if (!Void.class.equals(missingBeanType)) {
+            // 判断容器中是否没有 missingBeanType实例
             try {
                 return !hasBean(context.getBeanFactory(), missingBeanType);
             } catch (NoSuchBeanDefinitionException e) {
@@ -33,6 +37,7 @@ public class RetryConfigurationCondition implements ConfigurationCondition {
         }
         Class<?> hasBeanType = (Class<?>) map.get("hasBeanType");
         if (!Void.class.equals(hasBeanType)) {
+            // 判断容器中是否有hasBeanType实例
             try {
                 return hasBean(context.getBeanFactory(), hasBeanType);
             } catch (NoUniqueBeanDefinitionException e) {

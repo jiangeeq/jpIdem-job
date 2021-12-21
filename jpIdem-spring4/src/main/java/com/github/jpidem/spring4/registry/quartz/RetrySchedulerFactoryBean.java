@@ -18,7 +18,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
+ * @see SchedulerFactoryBean 是Quartz框架最重要的一环，它主导着定时任务的初始化与执行顺序
  */
 @Setter
 @Getter
@@ -78,6 +79,7 @@ public class RetrySchedulerFactoryBean extends SchedulerFactoryBean {
     @Override
     protected void startScheduler(final Scheduler scheduler, final int startupDelay) throws SchedulerException {
         if (startupDelay <= 0) {
+            log.debug("no async method to start Quartz Scheduler...");
             scheduler.start();
         } else {
             Thread schedulerThread = new Thread(() -> {
@@ -101,12 +103,15 @@ public class RetrySchedulerFactoryBean extends SchedulerFactoryBean {
     }
 
     public LocalDateTime getNextTime() {
+        // 创建一个GroupMatcher来匹配以给定字符串结尾的组
         GroupMatcher<TriggerKey> triggerKey = GroupMatcher.groupEndsWith(jobGroup);
-
+        // 获取当前的调度器
         Scheduler sch = this.getScheduler();
         try {
+            // 获取给定组中所有触发器的名称
             Set<TriggerKey> tks = sch.getTriggerKeys(triggerKey);
             if (!tks.isEmpty()) {
+                // 返回计划触发触发器的下一次时间。如果触发器不再触发，则返回null。
                 return toLocalDateTime(sch.getTrigger(tks.iterator().next()).getNextFireTime());
             }
         } catch (SchedulerException e) {

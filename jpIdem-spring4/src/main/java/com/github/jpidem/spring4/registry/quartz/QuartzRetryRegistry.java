@@ -27,12 +27,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 把重试任务注册到quartz中
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 @Slf4j
 public class QuartzRetryRegistry extends AbstractRetryRegistry implements InitializingBean, DisposableBean {
 
-    public static final String RETRY_JOB_STARTUPDELAY = "retry.job.startupDelay";
+    public static final String RETRY_JOB_STARTUP_DELAY = "retry.job.startupDelay";
 
     private Executor taskExecutor;
 
@@ -49,13 +49,14 @@ public class QuartzRetryRegistry extends AbstractRetryRegistry implements Initia
 
     @Override
     public void afterPropertiesSet() {
-        this.jobStartupDelay = environment.getProperty(RETRY_JOB_STARTUPDELAY, Integer.class, 30);
+        this.jobStartupDelay = environment.getProperty(RETRY_JOB_STARTUP_DELAY, Integer.class, 30);
 
         this.retryBeanDefinitionBuilderCustomizers = new ArrayList<>(defaultListableBeanFactory.getBeansOfType(RetryBeanDefinitionBuilderCustomizer.class).values());
         this.retryBeanDefinitionBuilderCustomizers.sort(OrderComparator.INSTANCE);
 
-        if (defaultListableBeanFactory.containsBean(BeanConstants.DEFAULT_RETRY_TASKEXECUTOR)) {
-            this.taskExecutor = defaultListableBeanFactory.getBean(BeanConstants.DEFAULT_RETRY_TASKEXECUTOR, Executor.class);
+        // 获取Executor名为defaultRetryTaskExecutor 的bean实例
+        if (defaultListableBeanFactory.containsBean(BeanConstants.DEFAULT_RETRY_TASK_EXECUTOR)) {
+            this.taskExecutor = defaultListableBeanFactory.getBean(BeanConstants.DEFAULT_RETRY_TASK_EXECUTOR, Executor.class);
         } else {
             this.taskExecutor = Executors.newCachedThreadPool();
         }

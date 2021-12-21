@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 /**
  * 抽象Job spring注册器
  *
- * @author yuni[mn960mn@163.com]
+ * @author 掘金-蒋老湿[773899172@qq.com] 公众号:十分钟学编程
  */
 public abstract class AbstractRetryRegistry implements RetryRegistry, BeanFactoryAware, EnvironmentAware {
     // 以list集合的方式操作bean
